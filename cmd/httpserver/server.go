@@ -20,7 +20,8 @@ func Serve(s *state.State) {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Route("/api/v1", func(r chi.Router) {
-		r.Post("/user", handleRegisterUser(s))
+		r.Post("/users", handleRegisterUser(s))
+		r.Post("/users/activate", handleActivateUser(s))
 	})
 
 	serverAddress := fmt.Sprintf(":%d", s.Cfg.ApplicationPort)

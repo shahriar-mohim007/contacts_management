@@ -101,13 +101,8 @@ func handleRegisterUser(s *state.State) http.HandlerFunc {
 			ActivateToken: token,
 		}
 
-		w.Header().Set("Content-Type", "application/json")
-		err = json.NewEncoder(w).Encode(response)
-
-		if err != nil {
-			http.Error(w, "", http.StatusInternalServerError)
-			return
-		}
+		_ = UserCreated.WriteToResponse(w, response)
+		return
 
 	}
 }

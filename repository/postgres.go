@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/gofrs/uuid"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 	"sync"
@@ -56,4 +57,10 @@ func (repo *PgRepository) CreateUser(ctx context.Context, user *User) error {
 		return err
 	}
 	return nil
+}
+
+func (repo *PgRepository) ActivateUserByID(ctx context.Context, userID uuid.UUID) error {
+	query := `UPDATE users SET is_active = TRUE WHERE id = $1`
+	_, err := repo.db.ExecContext(ctx, query, userID)
+	return err
 }
