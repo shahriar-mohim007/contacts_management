@@ -14,6 +14,7 @@ import (
 )
 
 func handleRegisterUser(s *state.State) http.HandlerFunc {
+
 	type requestPayload struct {
 		Name     string `json:"name"`
 		Email    string `json:"email"`
@@ -41,7 +42,7 @@ func handleRegisterUser(s *state.State) http.HandlerFunc {
 			_ = ValidDataNotFound.WriteToResponse(w, nil)
 			return
 		}
-		userDto, err := s.Repository.GetUserByEmail(ctx, request.Email)
+		user, err := s.Repository.GetUserByEmail(ctx, request.Email)
 
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
@@ -53,7 +54,7 @@ func handleRegisterUser(s *state.State) http.HandlerFunc {
 			}
 		}
 
-		if userDto != nil {
+		if user != nil {
 			log.Debug().Msgf("User already exists: %v", request.Email)
 			_ = UserAlreadyExist.WriteToResponse(w, nil)
 			return
@@ -69,11 +70,11 @@ func handleRegisterUser(s *state.State) http.HandlerFunc {
 
 		userID, err := uuid.NewV4()
 		if err != nil {
-			http.Error(w, "Error hashing password", http.StatusInternalServerError)
+			http.Error(w, "Error Generating Id", http.StatusInternalServerError)
 			return
 		}
 
-		user := repository.User{
+		user = &repository.User{
 			ID:       userID,
 			Name:     request.Name,
 			Email:    request.Email,
@@ -81,7 +82,7 @@ func handleRegisterUser(s *state.State) http.HandlerFunc {
 			IsActive: false,
 		}
 
-		if err := s.Repository.CreateUser(ctx, &user); err != nil {
+		if err := s.Repository.CreateUser(ctx, user); err != nil {
 			log.Fatal().Err(err).Msgf("Failed to create user")
 			http.Error(w, "Error creating user", http.StatusInternalServerError)
 			return

@@ -15,8 +15,15 @@ type User struct {
 	UpdatedAt time.Time `db:"updated_at"` // Timestamp of the last update
 }
 
-type UserDTO struct {
-	ID    uuid.UUID `db:"id"`
-	Name  string    `db:"name"`
-	Email string    `db:"email"`
+type Contact struct {
+	ID        uuid.UUID `json:"id" db:"id"`                 // Unique ID for each contact
+	UserID    uuid.UUID `json:"user_id" db:"user_id"`       // Foreign key to users table
+	Phone     string    `json:"phone" db:"phone"`           // Contact's phone number
+	Street    string    `json:"street" db:"street"`         // Street address
+	City      string    `json:"city" db:"city"`             // City
+	State     string    `json:"state" db:"state"`           // State
+	ZipCode   string    `json:"zip_code" db:"zip_code"`     // Zip code
+	Country   string    `json:"country" db:"country"`       // Country
+	CreatedAt time.Time `json:"created_at" db:"created_at"` // Created timestamp
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"` // Updated timestamp
 }

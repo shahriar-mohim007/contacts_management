@@ -9,3 +9,4 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT NOW(),    -- Timestamp of when the user was created
     updated_at TIMESTAMP DEFAULT NOW()     -- Timestamp of the last update
 );
+

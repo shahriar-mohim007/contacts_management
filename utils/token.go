@@ -36,3 +36,20 @@ func GenerateJWT(userID uuid.UUID, scope string, secretKey string, ttl time.Dura
 
 	return signedToken, nil
 }
+
+func GenerateRefreshToken(userID string, secretKey string) (string, error) {
+	refreshTokenID := uuid.Must(uuid.NewV4()).String()
+	claims := jwt.StandardClaims{
+		Id:        refreshTokenID,
+		Subject:   userID,
+		ExpiresAt: time.Now().Add(7 * 24 * time.Hour).Unix(),
+		IssuedAt:  time.Now().Unix(),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	signedToken, err := token.SignedString([]byte(secretKey))
+	if err != nil {
+		return "", err
+	}
+
+	return signedToken, nil
+}

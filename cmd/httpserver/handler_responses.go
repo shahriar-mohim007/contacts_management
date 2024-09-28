@@ -24,3 +24,18 @@ var UserCreated = utilis.ResponseState{
 	StatusCode: http.StatusCreated,
 	Message:    "User created successfully",
 }
+
+var loginSuccess = utilis.ResponseState{
+	StatusCode: http.StatusOK,
+	Message:    "Login Successful",
+}
+
+var ContactRetrieved = utilis.ResponseState{
+	StatusCode: http.StatusOK,
+	Message:    "Contacts Retrieved successfully",
+}
+
+var ContactCreated = utilis.ResponseState{
+	StatusCode: http.StatusCreated,
+	Message:    "Contacts Created successfully",
+}

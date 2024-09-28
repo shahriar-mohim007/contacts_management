@@ -22,6 +22,15 @@ func Serve(s *state.State) {
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Post("/users", handleRegisterUser(s))
 		r.Post("/users/activate", handleActivateUser(s))
+		r.Post("/token/auth", handleLogin(s))
+		r.Post("/token/refresh", handleRefreshToken(s))
+	})
+	r.Route("/api/v1/contacts", func(r chi.Router) {
+		r.Use(AuthMiddleware(s.Cfg.SecretKey))
+		r.Get("/", GetAllContactsHandler(s))
+		r.Post("/", CreateContactHandler(s))
+		r.Get("/:id", CreateContactHandler(s))
+
 	})
 
 	serverAddress := fmt.Sprintf(":%d", s.Cfg.ApplicationPort)
