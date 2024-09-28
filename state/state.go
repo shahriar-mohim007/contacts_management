@@ -6,7 +6,7 @@ import (
 )
 
 type State struct {
-	cfg        *Config
+	Cfg        *Config
 	Repository *repository.PgRepository
 }
 
@@ -16,7 +16,7 @@ func NewState(cfg *Config) *State {
 		log.Fatal().Err(err).Msg("pg repository error")
 	}
 	return &State{
-		cfg:        cfg,
+		Cfg:        cfg,
 		Repository: db,
 	}
 }
