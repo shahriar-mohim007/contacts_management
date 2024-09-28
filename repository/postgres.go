@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	uuid "github.com/jackc/pgtype/ext/gofrs-uuid"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 	"sync"
@@ -16,12 +15,6 @@ var (
 	once       sync.Once
 	repository *PgRepository
 )
-
-type UserDTO struct {
-	ID    uuid.UUID `db:"id"`
-	Name  string    `db:"name"`
-	Email string    `db:"email"`
-}
 
 func NewPgRepository(databaseUrl string) (*PgRepository, error) {
 	var err error

@@ -24,6 +24,15 @@ func handleRegisterUser(s *state.State) http.HandlerFunc {
 	}
 
 	return func(w http.ResponseWriter, req *http.Request) {
+
+		defer func() {
+			r := recover()
+			if r != nil {
+				log.Error().Msgf("Recovered from panic: %v", r)
+				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			}
+		}()
+
 		request := requestPayload{}
 		ctx := req.Context()
 		err := json.NewDecoder(req.Body).Decode(&request)

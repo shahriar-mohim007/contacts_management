@@ -14,3 +14,9 @@ type User struct {
 	CreatedAt time.Time `db:"created_at"` // Timestamp of when the user was created
 	UpdatedAt time.Time `db:"updated_at"` // Timestamp of the last update
 }
+
+type UserDTO struct {
+	ID    uuid.UUID `db:"id"`
+	Name  string    `db:"name"`
+	Email string    `db:"email"`
+}
