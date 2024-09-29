@@ -26,10 +26,13 @@ func Serve(s *state.State) {
 		r.Post("/token/refresh", handleRefreshToken(s))
 	})
 	r.Route("/api/v1/contacts", func(r chi.Router) {
+
 		r.Use(AuthMiddleware(s.Cfg.SecretKey))
 		r.Get("/", GetAllContactsHandler(s))
 		r.Post("/", CreateContactHandler(s))
-		r.Get("/:id", CreateContactHandler(s))
+		r.Get("/{id}", GetContactByIDHandler(s))
+		r.Patch("/{id}", PatchContactHandler(s))
+		r.Delete("/{id}", DeleteContactHandler(s))
 
 	})
 

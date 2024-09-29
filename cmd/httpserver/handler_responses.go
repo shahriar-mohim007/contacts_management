@@ -39,3 +39,8 @@ var ContactCreated = utilis.ResponseState{
 	StatusCode: http.StatusCreated,
 	Message:    "Contacts Created successfully",
 }
+
+var ContactUpdated = utilis.ResponseState{
+	StatusCode: http.StatusCreated,
+	Message:    "Contacts Updated successfully",
+}

@@ -27,3 +27,16 @@ type Contact struct {
 	CreatedAt time.Time `json:"created_at" db:"created_at"` // Created timestamp
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"` // Updated timestamp
 }
+
+type ContactWithUserResponse struct {
+	ContactID uuid.UUID `json:"contact_id"`
+	Phone     string    `json:"phone"`
+	Street    string    `json:"street"`
+	City      string    `json:"city"`
+	State     string    `json:"state"`
+	ZipCode   string    `json:"zip_code"`
+	Country   string    `json:"country"`
+
+	UserName  string `json:"user_name"`
+	UserEmail string `json:"user_email"`
+}
