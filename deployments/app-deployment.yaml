@@ -1,0 +1,37 @@
+# app-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contacts-app
+spec:
+  selector:
+    matchLabels:
+      app: contacts-app
+  template:
+    metadata:
+      labels:
+        app: contacts-app
+    spec:
+      containers:
+        - name: contacts-app
+          image: mohim007/contacts_app
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APPLICATION_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: contacts-config
+                  key: APPLICATION_PORT
+
+            - name: SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: contacts-config
+                  key: SECRET_KEY
+
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: contacts-config
+                  key: DATABASE_URL
