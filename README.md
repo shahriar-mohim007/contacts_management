@@ -1,6 +1,6 @@
 ## contacts_management
 ### Getting Started
-clone the project 
+clone the project: 
 git clone https://github.com/shahriar-mohim007/contacts_management.git
 
 ### Navigate to the Project Directory
