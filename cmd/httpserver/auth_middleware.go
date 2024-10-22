@@ -33,7 +33,7 @@ func AuthMiddleware(secretKey string) func(http.Handler) http.Handler {
 				http.Error(w, "Unauthorized: Invalid token", http.StatusUnauthorized)
 				return
 			}
-			ctx := context.WithValue(r.Context(), userContextKey, claims.UserID.String())
+			ctx := context.WithValue(r.Context(), "userid", claims.UserID.String())
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
@@ -48,6 +48,6 @@ func extractTokenFromHeader(r *http.Request) string {
 }
 
 func GetUserIDFromContext(ctx context.Context) (string, bool) {
-	userID, ok := ctx.Value(userContextKey).(string)
+	userID, ok := ctx.Value("userid").(string)
 	return userID, ok
 }
