@@ -2,6 +2,7 @@ package main
 
 import (
 	"contacts/cmd/httpserver"
+	"contacts/repository"
 	"contacts/state"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"
@@ -20,7 +21,11 @@ func main() {
 		logLevel = zerolog.DebugLevel
 	}
 	zerolog.SetGlobalLevel(logLevel)
-	appState := state.NewState(cfg)
+	db, err := repository.NewPgRepository(cfg.DatabaseUrl)
+	if err != nil {
+		log.Fatal().Err(err).Msg("pg repository error")
+	}
+	appState := state.NewState(cfg, db)
 	httpserver.Serve(appState)
 
 }

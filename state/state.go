@@ -2,19 +2,14 @@ package state
 
 import (
 	"contacts/repository"
-	"github.com/rs/zerolog/log"
 )
 
 type State struct {
 	Cfg        *Config
-	Repository *repository.PgRepository
+	Repository repository.Repository
 }
 
-func NewState(cfg *Config) *State {
-	db, err := repository.NewPgRepository(cfg.DatabaseUrl)
-	if err != nil {
-		log.Fatal().Err(err).Msg("pg repository error")
-	}
+func NewState(cfg *Config, db repository.Repository) *State {
 	return &State{
 		Cfg:        cfg,
 		Repository: db,

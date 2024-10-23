@@ -21,7 +21,7 @@ func Serve(s *state.State) {
 	r.Use(middleware.RequestID)
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Post("/users", handleRegisterUser(s))
-		r.Post("/users/activate", handleActivateUser(s))
+		r.Post("/users/activate", HandleActivateUser(s))
 		r.Post("/token/auth", handleLogin(s))
 		r.Post("/token/refresh", handleRefreshToken(s))
 	})

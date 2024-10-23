@@ -26,14 +26,14 @@ func (m *MockRepository) ActivateUserByID(ctx context.Context, userID uuid.UUID)
 	return args.Error(0)
 }
 
-func (m *MockRepository) GetAllContacts(ctx context.Context, userID uuid.UUID, limit, offset int) ([]repository.Contact, error) {
-	args := m.Called(ctx, userID, limit, offset)
-	return args.Get(0).([]repository.Contact), args.Error(1)
-}
-
-func (m *MockRepository) GetContactsCount(ctx context.Context, userID uuid.UUID) (int, error) {
+func (m *MockRepository) GetAllContacts(ctx context.Context, userID uuid.UUID) ([]repository.Contact, error) {
 	args := m.Called(ctx, userID)
-	return args.Int(0), args.Error(1)
+
+	// Ensure args.Get(0) is not nil and is the correct type before returning
+	if contacts, ok := args.Get(0).([]repository.Contact); ok {
+		return contacts, args.Error(1)
+	}
+	return nil, args.Error(1)
 }
 
 func (m *MockRepository) CreateContact(ctx context.Context, contact *repository.Contact) error {
