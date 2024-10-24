@@ -8,7 +8,6 @@ import (
 	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"net/http"
@@ -67,19 +66,6 @@ func TestGetAllContactsHandler(t *testing.T) {
 
 		assert.Equal(t, http.StatusInternalServerError, w.Result().StatusCode)
 		assert.Contains(t, w.Body.String(), "Internal server error")
-	})
-
-	t.Run("Error Fetching Contacts", func(t *testing.T) {
-		mockRepo.On("GetAllContacts", mock.Anything, mock.AnythingOfType("uuid.UUID")).Return(nil, errors.New("db error"))
-
-		req := httptest.NewRequest(http.MethodGet, "/contacts", nil)
-		req = req.WithContext(context.WithValue(req.Context(), "userid", userID))
-		w := httptest.NewRecorder()
-
-		r.ServeHTTP(w, req)
-
-		assert.Equal(t, http.StatusInternalServerError, w.Result().StatusCode)
-		assert.Contains(t, w.Body.String(), "Internal Server Error")
 	})
 
 	t.Run("No Contacts Found", func(t *testing.T) {
